@@ -1,5 +1,4 @@
 import { Keypair } from '@solana/web3.js';
-import 'dotenv/config';
 import { getKeypairFromEnvironment } from '@solana-developers/helpers';
 
 const runCryptographyFn = () => {
@@ -9,7 +8,7 @@ const runCryptographyFn = () => {
         console.log("public key", providedKeypair.publicKey.toBase58());
         console.log("secret key", providedKeypair.secretKey);
     }
-    
+
     let keypair  = getKeypairFromEnvironment("SECRET_KEY");
     printkeypairDetails(keypair);
 };
