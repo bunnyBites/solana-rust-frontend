@@ -1,6 +1,6 @@
-import cryptographyExampleScript from './cryptography';
-import readSolanaExampleScript from './readSolanaBlockchain';
-import transactionExampleFn from './transaction';
+import cryptographyExampleScript from './module_one/cryptography';
+import readSolanaExampleScript from './module_one/readSolanaBlockchain';
+import transactionExampleFn from './module_one/transaction';
 
 const main = () => {
     cryptographyExampleScript();
