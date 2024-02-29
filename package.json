@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "ts-node main.ts"
+  },
   "dependencies": {
     "@solana-developers/helpers": "^1.5.1",
     "@solana/web3.js": "^1.90.0",
