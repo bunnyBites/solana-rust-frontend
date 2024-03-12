@@ -1,22 +1,30 @@
-# Solana Frontend in Rust - Smart contract
-This is a Smart Contract to connect with Solana using Rust, more specifically [Dioxus](https://dioxuslabs.com/).
+# React + TypeScript + Vite
 
-## Prerequisites
-1. This project uses [Axum](https://docs.rs/axum/latest/axum/) webserver which is a separate project written in Rust. see [here](https://github.com/bunnyBites/solana-rust-axum-backend) to know more. You might also check its [readme](https://github.com/bunnyBites/solana-rust-axum-backend/blob/main/README.md) section to know what details you need to provide to run your back-end server.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-2. Phantom wallet - we will be using Devnet to test our program. You can also modify the code from the web server repo if you want to work with other environments. Check [here](https://www.soldev.app/course/interact-with-wallets) to learn more about how to configure Phantom to your browser and how to interact with it.
+Currently, two official plugins are available:
 
-3. Setting Dioxus (Wasm) for our front end. Check the [official docs](https://dioxuslabs.com/learn/0.4/getting_started/wasm) to get started.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## What to expect from this project?
-1. Connect with Phantom Wallet and get the balance SOL(s) of your account.
-2. Transfer SOL(s) from your account to another account (you might need the public key of the receiver's account).
-3. You can also Airdrop or get 5 SOL(s) to your account.
+## Expanding the ESLint configuration
 
-## Running the application Locally with hot-reload
-```sh
-dx serve --hot-reload
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+
+- Configure the top-level `parserOptions` property like this:
+
+```js
+export default {
+  // other rules...
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: ['./tsconfig.json', './tsconfig.node.json'],
+    tsconfigRootDir: __dirname,
+  },
+}
 ```
 
-## Project Preview
-!["solana_ui"](public/solana_preview.png)
+- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
+- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
