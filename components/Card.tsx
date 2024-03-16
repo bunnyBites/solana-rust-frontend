@@ -1,9 +1,9 @@
 import { Box, HStack, Spacer, Stack, Text } from '@chakra-ui/react';
 import { FC } from 'react';
-import { Movie } from '../models/Movie';
+import { StudentIntro } from '../models/StudentIntro';
 
 export interface CardProps {
-    movie: Movie;
+    studentIntro: StudentIntro;
 }
 
 export const Card: FC<CardProps> = (props) => {
@@ -23,25 +23,17 @@ export const Card: FC<CardProps> = (props) => {
                 ml={{ md: 6 }}
                 mr={{ md: 6 }}
             >
-                <HStack >
-                    <Text
-                        fontWeight="bold"
-                        textTransform="uppercase"
-                        fontSize="lg"
-                        letterSpacing="wide"
-                        color="gray.200"
-                    >
-                        {props.movie.title}
-                    </Text>
-                    <Spacer />
-                    <Text
-                        color="gray.200"
-                    >
-                        {props.movie.rating}/5
-                    </Text>
-                </HStack>
+                <Text
+                    fontWeight="bold"
+                    textTransform="uppercase"
+                    fontSize="lg"
+                    letterSpacing="wide"
+                    color="gray.200"
+                >
+                    {props.studentIntro.name}
+                </Text>
                 <Text my={2} color="gray.400">
-                    {props.movie.description}
+                    {props.studentIntro.message}
                 </Text>
             </Stack>
         </Box>
