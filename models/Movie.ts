@@ -22,7 +22,7 @@ export class MovieHelper {
     return buffer.slice(0, borshInstructionSchema.getSpan(buffer));
   }
 
-  public static deserializeMovie(movieBuffer: Buffer): MovieVO | null {
+  public static deserializeMovie(movieBuffer?: Buffer): MovieVO | null {
     if (!movieBuffer) return null;
 
     console.log(movieBuffer);
