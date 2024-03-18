@@ -72,8 +72,15 @@ export class StudentService {
       }
     );
 
-    StudentService.studentPubkeys = studentAccounts.map(
-      (account) => account.pubkey
-    );
+    StudentService.studentPubkeys = studentAccounts
+      .toSorted((a, b) => {
+        const lengthA = a.account.data.readUInt32LE(0);
+        const lengthB = b.account.data.readUInt32LE(0);
+
+        const dataA = a.account.data.slice(4, 4 + lengthA);
+        const dataB = b.account.data.slice(4, 4 + lengthB);
+
+        return dataA.compare(dataB);
+      }).map((account) => account.pubkey);
   }
 }
