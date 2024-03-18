@@ -12,12 +12,24 @@ const borschInstructionSchema = borsh.struct([
 ]);
 
 export class StudentHelper {
-    public static prepareStudentBuffer(student: StudentVO) {
+    public static prepareStudentBuffer(student: StudentVO): Buffer {
         const buffer = Buffer.alloc(1000);
 
         borschInstructionSchema.encode({ ...student, variant: 0 }, buffer);
 
         return buffer.slice(0, borschInstructionSchema.getSpan(buffer));
+    }
+
+    public static deserializeStudentBuffer(studentInfo: Buffer): StudentVO | null {
+        if (!studentInfo) return null;
+
+        try {
+            const { name, message } = borschInstructionSchema.decode(studentInfo);
+            return { name, message };
+        } catch (e) {
+            console.log("Deserialization error", e);
+            return null;
+        }
     }
 }
 
