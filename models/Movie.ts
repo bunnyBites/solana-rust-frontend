@@ -13,6 +13,13 @@ export const borshInstructionSchema = borsh.struct([
   borsh.str("description"),
 ]);
 
+const borshAccountSchema = borsh.struct([
+  borsh.bool("initialized"),
+  borsh.u8("rating"),
+  borsh.str("title"),
+  borsh.str("description"),
+]);
+
 export class MovieHelper {
   public static serializeMovie(movieInfo: MovieVO): Buffer {
     const buffer = Buffer.alloc(1000);
@@ -25,10 +32,9 @@ export class MovieHelper {
   public static deserializeMovie(movieBuffer?: Buffer): MovieVO | null {
     if (!movieBuffer) return null;
 
-    console.log(movieBuffer);
     try {
       const { rating, description, title } =
-        borshInstructionSchema.decode(movieBuffer);
+      borshAccountSchema.decode(movieBuffer);
 
       return { rating, description, title };
     } catch (error) {
