@@ -14,11 +14,27 @@ export const borshInstructionSchema = borsh.struct([
 ]);
 
 export class MovieHelper {
-    public static serializeMovie(movieInfo: MovieVO): Buffer {
-        const buffer = Buffer.alloc(1000);
+  public static serializeMovie(movieInfo: MovieVO): Buffer {
+    const buffer = Buffer.alloc(1000);
 
-        borshInstructionSchema.encode({ ...movieInfo, variant: 0 }, buffer);
+    borshInstructionSchema.encode({ ...movieInfo, variant: 0 }, buffer);
 
-        return buffer.slice(0, borshInstructionSchema.getSpan(buffer));
+    return buffer.slice(0, borshInstructionSchema.getSpan(buffer));
+  }
+
+  public static deserializeMovie(movieBuffer: Buffer): MovieVO | null {
+    if (!movieBuffer) return null;
+
+    console.log(movieBuffer);
+    try {
+      const { rating, description, title } =
+        borshInstructionSchema.decode(movieBuffer);
+
+      return { rating, description, title };
+    } catch (error) {
+      console.log("Deserialization error:", error);
+
+      return null;
     }
+  }
 }
