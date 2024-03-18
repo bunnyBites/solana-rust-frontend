@@ -1,9 +1,9 @@
 import { Box, HStack, Spacer, Stack, Text } from '@chakra-ui/react';
 import { FC } from 'react';
-import { StudentIntro } from '../models/StudentIntro';
+import { StudentVO } from '../models/StudentIntro';
 
 export interface CardProps {
-    studentIntro: StudentIntro;
+    studentIntro: StudentVO;
 }
 
 export const Card: FC<CardProps> = (props) => {
