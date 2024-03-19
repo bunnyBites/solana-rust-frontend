@@ -6,6 +6,7 @@ import { initializeKeypair } from "./initializeKeypair";
 const MINT_ACCOUNT = new web3.PublicKey(
   "CEdKsK4u3ujMeqvsc3SrzPCnwAKanz1D6jqc1efdS2qa"
 );
+
 const TOKEN_ACCOUNT = new web3.PublicKey(
   "6vciYDxvmZss5R8GuC7XhxEtJtoR3MkUrA4M2JmqzeSC"
 );
@@ -15,13 +16,27 @@ export const testCreateTokenProgram = async () => {
   const user = await initializeKeypair(connection);
 
   // create mint account
-  //   createMintAccount(connection, user);
+  // const mintAccount = await createMintAccount(connection, user);
 
   //   create token account
-  //   createTokenAccount(MINT_ACCOUNT, connection, user);
+  // const tokenAccount = await createTokenAccount(mintAccount, connection, user);
+
+  const mintInfo = await token.getMint(connection, MINT_ACCOUNT);
 
   // mint tokens
-  mintToken(connection, user);
+  // const _ = await mintToken(connection, user, mintInfo);
+
+  // approve delegate account
+  // const _delegateAccount = await approveDelegate(connection, user, mintInfo);
+
+  // transfer tokens
+  // transferTokens(connection, user, delegateAccount, mintInfo);
+
+  // revoke delegate
+  // revokeDelegate(connection, user);
+
+  // burn tokens
+  burnTokens(connection, user, mintInfo);
 };
 
 const createMintAccount = async (
@@ -55,11 +70,14 @@ const createTokenAccount = async (
   );
 
   console.log("Token Account created!!", tokenAccount);
+  return tokenAccount;
 };
 
-const mintToken = async (connection: web3.Connection, user: web3.Keypair) => {
-  const mintInfo = await token.getMint(connection, MINT_ACCOUNT);
-
+const mintToken = async (
+  connection: web3.Connection,
+  user: web3.Keypair,
+  mintInfo: token.Mint,
+) => {
   const mintedTokenTransactionSignature =
     await CreateTokenProgramService.o.mintAccount(
       connection,
@@ -71,4 +89,89 @@ const mintToken = async (connection: web3.Connection, user: web3.Keypair) => {
     );
 
   console.log("Mint Transaction signature", mintedTokenTransactionSignature);
+};
+
+const approveDelegate = async (
+  connection: web3.Connection,
+  user: web3.Keypair,
+  mintInfo: token.Mint
+) => {
+  const delegateAccount = new web3.Keypair();
+
+  const delegateTransactionSignature =
+    await CreateTokenProgramService.o.approveDelegate(
+      connection,
+      user,
+      TOKEN_ACCOUNT,
+      delegateAccount.publicKey,
+      user.publicKey,
+      50 * 10 ** mintInfo.decimals
+    );
+
+  console.log("Delegate transaction signature: ", delegateTransactionSignature);
+  return delegateAccount;
+};
+
+const transferTokens = async (
+  connection: web3.Connection,
+  user: web3.Keypair,
+  delegate: web3.Keypair,
+  mintInfo: token.Mint
+) => {
+  // create a receiver wallet
+  const reciever = new web3.Keypair();
+
+  // create a token account for the created receiver
+  const recieverTokenAccount =
+    await CreateTokenProgramService.o.createTokenAccount(
+      connection,
+      user,
+      MINT_ACCOUNT,
+      reciever.publicKey
+    );
+
+  // transfer token from the source to reciever using delegate account
+  const transferTransactionSignature =
+    await CreateTokenProgramService.o.tranferToken(
+      connection,
+      user,
+      TOKEN_ACCOUNT,
+      recieverTokenAccount.address,
+      delegate,
+      50 * 10 ** mintInfo.decimals
+    );
+
+  console.log("transfer transaction signature: ", transferTransactionSignature);
+};
+
+const revokeDelegate = async (
+  connection: web3.Connection,
+  user: web3.Keypair
+) => {
+  const revokeDelegateSignature =
+    await CreateTokenProgramService.o.revokeDelegate(
+      connection,
+      user,
+      TOKEN_ACCOUNT,
+      user
+    );
+
+  console.log("revoke Delegate Signature: ", revokeDelegateSignature);
+};
+
+const burnTokens = async (
+  connection: web3.Connection,
+  user: web3.Keypair,
+  mintInfo: token.Mint
+) => {
+  const burnTransactionSignature = await CreateTokenProgramService.o.burnToken(
+    connection,
+    user,
+    TOKEN_ACCOUNT,
+    mintInfo.address,
+    user,
+    10 * 10 ** mintInfo.decimals
+  );
+
+  console.log("burn Transaction Signature: ", burnTransactionSignature);
 };

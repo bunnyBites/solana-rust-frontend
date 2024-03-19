@@ -28,13 +28,13 @@ export class CreateTokenProgramService {
     connection: web3.Connection,
     payer: web3.Keypair,
     mint: web3.PublicKey,
-    owner: web3.PublicKey,
+    owner: web3.PublicKey
   ): Promise<token.Account> {
     const tokenAccount = await token.getOrCreateAssociatedTokenAccount(
       connection,
       payer,
       mint,
-      owner,
+      owner
     );
 
     return tokenAccount;
@@ -46,7 +46,7 @@ export class CreateTokenProgramService {
     mint: web3.PublicKey,
     destination: web3.PublicKey, // token account address
     mintAuthority: web3.PublicKey,
-    amount: number, // tokens to mint
+    amount: number // tokens to mint
   ): Promise<string> {
     const mintTransactionSignature = await token.mintTo(
       connection,
@@ -54,9 +54,85 @@ export class CreateTokenProgramService {
       mint,
       destination,
       mintAuthority,
-      amount,
+      amount
     );
 
     return mintTransactionSignature;
+  }
+
+  public async approveDelegate(
+    connection: web3.Connection,
+    payer: web3.Keypair,
+    account: web3.PublicKey,
+    delegate: web3.PublicKey,
+    owner: web3.PublicKey,
+    amount: number
+  ): Promise<string> {
+    const approveDelegateTransactionSignature = token.approve(
+      connection,
+      payer,
+      account,
+      delegate,
+      owner,
+      amount
+    );
+
+    return approveDelegateTransactionSignature;
+  }
+
+  public async tranferToken(
+    connection: web3.Connection,
+    payer: web3.Keypair,
+    source: web3.PublicKey,
+    destination: web3.PublicKey,
+    owner: web3.Keypair,
+    amount: number
+  ): Promise<string> {
+    const tranferTransactionSignature = token.transfer(
+      connection,
+      payer,
+      source,
+      destination,
+      owner,
+      amount
+    );
+
+    return tranferTransactionSignature;
+  }
+
+  public async revokeDelegate(
+    connection: web3.Connection,
+    payer: web3.Keypair,
+    account: web3.PublicKey,
+    owner: web3.Keypair
+  ): Promise<string> {
+    const revokeDelegateTransactionSignature = token.revoke(
+      connection,
+      payer,
+      account,
+      owner
+    );
+
+    return revokeDelegateTransactionSignature;
+  }
+
+  public async burnToken(
+    connection: web3.Connection,
+    payer: web3.Keypair,
+    account: web3.PublicKey,
+    mint: web3.PublicKey,
+    owner: web3.Keypair,
+    amount: number
+  ): Promise<string> {
+    const burnTransactionSignature = token.burn(
+      connection,
+      payer,
+      account,
+      mint,
+      owner,
+      amount
+    );
+
+    return burnTransactionSignature;
   }
 }
