@@ -4,6 +4,7 @@
   },
   "dependencies": {
     "@solana-developers/helpers": "^1.5.1",
+    "@solana/spl-token": "^0.4.1",
     "@solana/web3.js": "^1.90.0",
     "dotenv": "^16.4.5"
   }
