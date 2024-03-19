@@ -1,5 +1,5 @@
-import web3 from "@solana/web3.js";
 import * as token from "@solana/spl-token";
+import web3 from "@solana/web3.js";
 
 export class CreateTokenProgramService {
   public static readonly o = new CreateTokenProgramService();
