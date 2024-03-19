@@ -23,4 +23,40 @@ export class CreateTokenProgramService {
 
     return tokenMint;
   }
+
+  public async createTokenAccount(
+    connection: web3.Connection,
+    payer: web3.Keypair,
+    mint: web3.PublicKey,
+    owner: web3.PublicKey,
+  ): Promise<token.Account> {
+    const tokenAccount = await token.getOrCreateAssociatedTokenAccount(
+      connection,
+      payer,
+      mint,
+      owner,
+    );
+
+    return tokenAccount;
+  }
+
+  public async mintAccount(
+    connection: web3.Connection,
+    payer: web3.Keypair,
+    mint: web3.PublicKey,
+    destination: web3.PublicKey, // token account address
+    mintAuthority: web3.PublicKey,
+    amount: number, // tokens to mint
+  ): Promise<string> {
+    const mintTransactionSignature = await token.mintTo(
+      connection,
+      payer,
+      mint,
+      destination,
+      mintAuthority,
+      amount,
+    );
+
+    return mintTransactionSignature;
+  }
 }
