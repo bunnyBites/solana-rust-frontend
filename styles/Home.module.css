@@ -31,3 +31,29 @@
   color: white;
   padding-top: 50px;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input {
+  background: #f2f2f2;
+}
+
+.formField {
+  margin: 10px 0 10px 0;
+  min-width: 500px;
+  padding: 15px;
+  font-size: 16px;
+  border: 0;
+  font-family: "Roboto", sans-serif;
+}
+.formButton {
+  margin: 10px 0 10px 0;
+  padding: 15px;
+  font-size: 16px;
+  border: 0;
+  font-family: "Roboto", sans-serif;
+}

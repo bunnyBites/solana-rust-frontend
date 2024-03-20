@@ -1,33 +1,31 @@
+import { NextPage } from "next";
+import styles from "../styles/Home.module.css";
+import WalletContextProvider from "../components/WalletContextProvider";
+import { AppBar } from "../components/AppBar";
+import { BalanceDisplay } from "../components/BalanceDisplay";
+import { MintToForm } from "../components/MintToForm";
+import { CreateTokenAccountForm } from "../components/CreateTokenAccount";
+import { CreateMintForm } from "../components/CreateMint";
+import Head from "next/head";
 
-import { Center, Box, Heading } from '@chakra-ui/react'
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import { AppBar } from '../components/AppBar'
-import { StudentIntroList } from '../components/StudentIntroList'
-import { Form } from '../components/Form'
-import styles from '../styles/Home.module.css'
-
-const Home: NextPage = () => {
+const Home: NextPage = (props) => {
   return (
     <div className={styles.App}>
       <Head>
-        <title>Student Intros</title>
+        <title>Token Program</title>
+        <meta name="description" content="Token Program" />
       </Head>
-      <AppBar />
-      <Center>
-        <Box>
-          <Heading as="h1" size="l" color="white" ml={4} mt={8}>
-            Introduce Yourself!
-          </Heading>
-          <Form />
-          <Heading as="h1" size="l" color="white" ml={4} mt={8}>
-            Meet the Students!
-          </Heading>
-          <StudentIntroList />
-        </Box>
-      </Center>
+      <WalletContextProvider>
+        <AppBar />
+        <div className={styles.AppBody}>
+          <BalanceDisplay />
+          <CreateMintForm />
+          <CreateTokenAccountForm />
+          <MintToForm />
+        </div>
+      </WalletContextProvider>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
